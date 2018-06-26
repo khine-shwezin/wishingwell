@@ -1,0 +1,7 @@
+$shopt -s extglob
+$rm -rf !(folderNumberTwo)
+
+/* All folders except folderNumberTwo will be deleted. */
+/* shopt is a shell builtin command to set and unset (remove) various Bash shell options. */
+/* extglob is globbing refers to pattern matching.*/
+
