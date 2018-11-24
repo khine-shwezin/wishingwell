@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<title>Yearly Calendar</title>
+<script src= "https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src= "https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<script src= "https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+<body>
+<div class="title">
+  <ul>
+    <li class="prev" onClick="previousClick()">&#10094;</li>
+    <li class="next" onClick="nextClick()">&#10095;</li>
+    <li><br><span style="font-size:18px">Yearly Calendar</span></li>
+  </ul>
+</div>
+
+<div id="root"></div>
+<div id="specialDateDialog"></div>
+<style>
+.title .prev {
+    float: left;
+    padding-top: 10px;
+}
+
+/* Next button */
+.title .next {
+    float: right;
+    padding-top: 10px;
+}
+
+.dropdownClass{
+	width: 200px;
+	color: #1abc9c;
+	padding: 5px;
+}
+.cBox{
+box-sizing: border-box;
+}
+
+.favClass{
+    padding: 5px;
+    background: #1abc9c;
+    color: white !important
+}
+
+.focusCss{
+    padding: 5px;
+    background: red;
+    color: white !important
+}
+
+.ordClass{
+text: black;
+}
+
+.blueClass{
+    padding: 5px;
+    background: #00ccff;
+    color: white !important
+}
+
+.cyanClass{
+    padding: 5px;
+    background: #ff99ff;
+    color: white !important
+}
+
+.greenClass{
+    padding: 5px;
+    background: #00ff00;
+    color: white !important
+}
+
+.orangeClass{
+
+    padding: 5px;
+    background: #ff9933;
+    color: white !important
+}
+.tblClass{
+border: 1px solid blue;
+}
+
+* {box-sizing: border-box;}
+ul {list-style-type: none;}
+body {font-family: Verdana, sans-serif;}
+
+.month {
+    padding: 10px 10px;
+    background: #1abc9c;
+    text-align: center;
+}
+.title {
+    padding: 10px 10px;
+    background: #1abc9c;
+    text-align: center;
+	width: 1225px;
+}
+
+.month ul {
+    margin: 0;
+    padding: 0;
+}
+
+.month ul li {
+    color: white;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+
+.weekdays {
+    margin: 0;
+    padding: 10px 0;
+    background-color: #ddd;
+}
+
+.weekdays li {
+    display: inline-block;
+    width: 13.6%;
+    color: #666;
+    text-align: center;
+}
+
+.days {
+    padding: 10px 0;
+    background: #eee;
+    margin: 0;
+}
+
+.days li {
+    list-style-type: none;
+    display: inline-block;
+    width: 7.6%;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size:12px;
+    color: #777;
+}
+
+.days li .active {
+    padding: 5px;
+    background: #1abc9c;
+    color: white !important
+}
+
+.markDay{
+padding: 20px;
+background-color: #1abc9c;
+width : 400px;
+}
+
+/* Add media queries for smaller screens */
+@media screen and (max-width:720px) {
+    .weekdays li, .days li {width: 13.1%;}
+}
+
+@media screen and (max-width: 420px) {
+    .weekdays li, .days li {width: 12.5%;}
+    .days li .active {padding: 2px;}
+}
+
+@media screen and (max-width: 290px) {
+    .weekdays li, .days li {width: 12.2%;}
+}
+</style>
+<script type="text/babel">
+
+var monthArray = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+var today = new Date();
+var day = today.getDay();
+var month = monthArray[today.getMonth()];
+var year = today.getFullYear();
+var currentYear = 2018;
+
+class Day extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {value: 'Nothing', dName:props.dayName, mName: props.monthName, yName: props.yearName, dayEvent:"Nothing", cssClass:"ordClass"};
+    this.dayHandleClick = this.dayHandleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value,dayEvent: event.target.value });
+  }
+
+  dayHandleClick(e, id) {
+   ReactDOM.render(
+     <div class="markDay">
+       <label class="markDay">{this.state.dName}-{this.state.mName}-{this.state.yName}</label>
+       <label>
+       <select value={this.state.value} onClick={this.handleChange} class="dropdownClass">
+         <option value="ordinary" class="ordClass">Ordinary</option>
+         <option value="holiday" class="blueClass">Holiday</option>
+         <option value="birthday" class="greenClass">Birthday</option>
+         <option value="busy" class="orangeClass">Busy</option>
+         <option value="anniversary" class="cyanClass">Anniversary</option>
+       </select>
+       </label>
+     </div>
+   ,document.getElementById("specialDateDialog"));
+  }
+
+  render() {
+  if(day == this.state.dName && month == this.state.mName && year ==  this.state.yName ){
+    return (
+      <li onClick={this.dayHandleClick.bind(this, "fav day")} class="favClass">
+        {this.state.dName}
+      </li>
+     );
+  }else{
+    if(this.state.dayEvent == "ordinary"){
+      this.state.cssClass = "ordClass"
+    }else if(this.state.dayEvent == "holiday"){
+      this.state.cssClass = "blueClass"
+    }else if(this.state.dayEvent == "busy"){
+      this.state.cssClass = "orangeClass"
+    }else if(this.state.dayEvent == "anniversary"){
+      this.state.cssClass = "cyanClass"
+    }else if(this.state.dayEvent == "birthday"){
+      this.state.cssClass = "greenClass"
+    }else{
+      this.state.cssClass = "ordClass"
+    }
+    return (
+      <li onClick={this.dayHandleClick.bind(this, "Ordinary day")} class={this.state.cssClass}>
+        {this.state.dName}
+      </li>
+    );
+  }
+  }
+}
+
+class Month extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {isToggleOn: true, mName:props.monthName, yName:props.yearName};
+  }
+  render() {
+  let daysContent = [];
+    if(this.state.mName == "Feb"){
+      const days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,25,27,28];
+      daysContent =  days.map((number) => <Day dayName={number} monthName={this.state.mName} yearName={this.state.yName}/>);
+    }else if(this.state.mName == "Jan" || this.state.mName == "March" || this.state.mName == "May"  || this.state.mName == "July" || this.state.mName == "Aug" || this.state.mName == "Oct"  || this.state.mName == "Dec"){
+      const days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,25,27,28,29,30,31];
+      daysContent =  days.map((number) => <Day dayName={number} monthName={this.state.mName} yearName={this.state.yName}/>);
+    }else{
+      const days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,25,27,28,29,30];
+      daysContent =  days.map((number) => <Day dayName={number} monthName={this.state.mName} yearName={this.state.yName}/>);
+    }
+    return (
+      <div>
+        <div class="month">
+          <ul>
+            <li>
+            {this.state.mName}
+            <span>{this.state.yName}</span>
+            </li>
+          </ul>
+        </div>
+        <ul class="weekdays">
+          <li>Mon</li>
+          <li>Tue</li>
+          <li>Wed</li>
+          <li>Thu</li>
+          <li>Fri</li>
+          <li>Sat</li>
+          <li>Sun</li>
+          </ul>
+          <ul class="days">
+            {daysContent}
+        </ul>
+      </div>
+    );
+  }
+}
+
+function nextClick(){
+    var nextYear = currentYear + 1;
+    currentYear = nextYear;
+    ReactDOM.render(
+      null,
+      document.getElementById('root')
+    );
+    ReactDOM.render(
+      <App thisYear={nextYear}/>,
+      document.getElementById('root')
+    );
+}
+
+function previousClick(){
+    var previousYear = currentYear - 1;
+    currentYear = previousYear;
+    ReactDOM.render(
+      null,
+      document.getElementById('root')
+    );
+    ReactDOM.render(
+      <App thisYear={previousYear}/>,
+      document.getElementById('root')
+    );
+}
+function App(args){
+    return (
+      <table>
+        <tr>
+          <td><Month monthName="Jan" yearName={args.thisYear}/></td>
+          <td><Month monthName="Feb" yearName={args.thisYear}/></td>
+          <td><Month monthName="March" yearName={args.thisYear}/></td>
+        </tr>
+        <tr>
+          <td><Month monthName="April" yearName={args.thisYear}/></td>
+          <td><Month monthName="May" yearName={args.thisYear}/></td>
+          <td><Month monthName="June" yearName={args.thisYear}/></td>
+        </tr>
+        <tr>
+          <td><Month monthName="July" yearName={args.thisYear}/></td>
+          <td><Month monthName="Aug" yearName={args.thisYear}/></td>
+          <td><Month monthName="Sept" yearName={args.thisYear}/></td>
+        </tr>
+        <tr>
+          <td><Month monthName="Oct" yearName={args.thisYear}/></td>
+          <td><Month monthName="Nov" yearName={args.thisYear}/></td>
+          <td><Month monthName="Dec" yearName={args.thisYear}/></td>
+        </tr>
+    </table>
+    );
+}
+
+ReactDOM.render(
+    <App thisYear={currentYear}/>,
+    document.getElementById('root')
+);
+</script>
+</body>
+</html>
+<!--
+This Yearly Calendar is based on React and can do
+
++ Highlight the current date.
+
++ Add the ability to mark a date as one of these categories, by clicking on the date:
+• Holiday
+• Birthday
+• Busy
+• Anniversary
+
+Each category should have a different colour. When a date is marked with a category, that date should be
+highlighted with that colour (similar to highlighted dates in the above illustration).
+Clicking on a date that has a category assigned to it should allow changing or removing the category.
+
++ Enhance the calendar to support more than the current year. Provide navigation so the user can switch between
+different years and a way to navigate to the current year.
+
+
+Note:
+Developed in 8 hours timeframe. There are rooms to improve! Hope for more time to explore and brush up! 
+
+Developer: Khine Shwe Zin - 24 Nov 2018
+-->
