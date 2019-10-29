@@ -1,0 +1,14 @@
+echo "This script reads json file [input.json] in same place, and outputs its id and value pair."
+input="./input.json"
+while IFS= read -r line
+do
+  id=$(echo $line | sed 's/[^a-zA-Z0-9.@_-]/ /g' | sed 's/[ ]\+/ /g'| cut -d" " -f2)
+  v=$(echo $line | sed 's/[^a-zA-Z0-9.@_-]/ /g' | sed 's/[ ]\+/ /g'| cut -d" " -f3)
+  if [ ${#id} -gt 0 ]
+  then
+    echo "id:[$id], value:[$v]"
+  fi
+
+done<$input
+
+echo "end"
