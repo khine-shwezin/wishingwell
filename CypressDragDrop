@@ -1,0 +1,48 @@
+/*
+This cypress file shows how to do drag and drop, from one panel to another, with Cypress library. You need to install 'cypress-drag-drop' package in prior.
+The web app I am running on has the requirement to drag each data-row from left panel and drop them into to each available graphic cell on right panel.
+*/
+
+import 'cypress-drag-drop';
+Cypress.Commands.add('moveSamples', () => {
+cy.visit('https://redhat7qaclarity502.cavc.illumina.com/clarity/work-placement/109');
+cy.wait(3000);
+cy.get('.sample-row ').eq(0)
+.trigger('mouseover')
+.trigger('mousedown', {which: 1})
+.trigger('mousemove', {clientX: 15.5, clientY: 18})
+.get('#cw-output-10-A-1')
+.trigger('mousemove')
+.trigger('mouseup', {force: true}).then(f=>{
+    cy.wait(3000);
+    cy.get('.sample-row ').eq(0)
+    .should('is.visible')
+    .trigger('mouseover')
+    .trigger('mousedown', {which: 1})
+    .trigger('mousemove', {clientX: 15.5, clientY: 18})
+    .get('#cw-output-10-B-1')
+    .trigger('mousemove')
+    .trigger('mouseup', {force: true});
+}).then(ff => {
+  cy.wait(3000);
+  cy.get('.sample-row ').eq(0)
+  .should('is.visible')
+  .trigger('mouseover')
+  .trigger('mousedown', {which: 1})
+  .trigger('mousemove', {clientX: 15.5, clientY: 18})
+  .get('#cw-output-10-C-1')
+  .trigger('mousemove')
+  .trigger('mouseup', {force: true});
+}).then(fff=>{
+  cy.wait(3000);
+  cy.get('.sample-row ').eq(0)
+  .should('is.visible')
+  .trigger('mouseover')
+  .trigger('mousedown', {which: 1})
+  .trigger('mousemove', {clientX: 15.5, clientY: 18})
+  .get('#cw-output-10-D-1')
+  .trigger('mousemove')
+  .trigger('mouseup', {force: true});
+}).then(fff=>{
+cy.contains('Record Details »').should('is.visible').click(); //navigation-button-btnEl
+});
