@@ -1,0 +1,24 @@
+email="dummyemail@illumina.com"
+version="5.2"
+
+while true; do
+  case "$1" in
+    -v )
+      clarityVersion=$2
+      shift 2
+    ;;
+
+    -e )
+      email=$2
+      shift 2
+    ;;
+    *)
+      break
+    ;;
+  esac
+done
+
+echo "version=$version, email=$email"
+
+#source test.sh -v 5.3 -e me@myhost.com
+#this is called parameters with flags
