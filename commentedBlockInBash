@@ -1,0 +1,9 @@
+: <<"kcomment"
+
+This block is the commented block in bash, 
+
+in which ':' is null followed by input command '<<' and any name of your choice. 
+
+null wont do anything that << inputs from first 'kcomment' to last 'kcomment' again.
+
+kcomment
