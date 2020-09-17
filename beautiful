@@ -1,0 +1,18 @@
+Email Addresses ^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$
+
+start : ^
+
+\w+   : word as 1 or more
+
+()*   : ( ) as 0 or more. 
+[.-]?\w+ :  if . or - , word must follow 1 or more
+
+()+  : ( ) as 1 more more
+
+\.\w{2,3} :   . followed by word in count of 2 to 3
+
+end : $
+
+
+Image Filenames ^\w+\.(gif|png|jpg|jpeg)$
+
