@@ -1,0 +1,46 @@
+# Stack :
+# self.head is the place keeping the pointer to latest newNode
+# First of all, head.next is NONE.
+# When newNode is created, "NONE" from head.next is copied to newNode.next. Then, head.next is newNode.
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+class Stack:
+    def __init__(self):
+        self.size=0;
+        self.head=Node("head") # Key to hold the pointer to latest newNode
+
+    def push(self,value):
+        print("--------- >> creating Node:",value)
+        node=Node(value)
+        node.next=self.head.next #newNode.next = latest node recored in self.head
+        self.head.next=node # now head.next is holding the pointer to newNode
+        self.size+=1
+
+    def popNode(self):
+        print("--- Removing a node ---")
+        remove=self.head.next
+        self.head.next=self.head.next.next
+        self.size-=1
+        print("Remote node:",remove.value)
+        print("Head:", self.head.next.value, "| size:",self.size)
+
+    def printStack(self):
+        print("---- printing Stack ---- ")
+        cur=self.head.next
+        while(cur != None):
+            print("Value:",cur.value)
+            cur=cur.next
+
+
+if __name__ == "__main__":
+    stack=Stack()
+    for i in range(1,7):
+        stack.push(i)
+
+    stack.popNode()
+    stack.popNode()
+    stack.printStack()
