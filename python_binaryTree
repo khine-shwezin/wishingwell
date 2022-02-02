@@ -1,0 +1,57 @@
+# BinaryTree
+#1) Make a node as root
+#2) insert a new Node on that root node
+#3) Inside insert function, check if root node has left (or right) node.
+# if so, call insert again at root node's left node's insert, until left node is None.
+# this is how travels down to the end
+
+class Node:
+    def __init__(self, data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+    def insert(self,newData): # self is mother caller node
+        if self.data:
+            if newData < self.data:
+                if self.left is None: # check if it has child.
+                    self.left= Node(newData) # no child? add straight in LEFT
+                else:
+                    self.left.insert(newData) # Trick is here. has left child? travell down. Root(caller) node's left node's insert function
+            elif newData > self.data:
+                if self.right is None:
+                    self.right= Node(newData)
+                else:
+                    self.right.insert(newData)
+        else:
+            self.data=newData
+
+    def printTree(self):
+        print(self.data)
+        if self.left:
+            self.left.printTree()
+
+        if self.right:
+            self.right.printTree()
+
+    def findVal(self,v,c):
+        c += 1
+        if(v==self.data):
+            print("FOUND at ",c)
+            quit()
+        if self.left:
+            self.left.findVal(v,c)
+
+        if self.right:
+            self.right.findVal(v,c)
+
+
+c=0
+root=Node(12) # just create the first child node
+root.insert(6) # Now add a child node to ROOT node
+root.insert(15)
+root.insert(9)
+root.insert(2)
+root.insert(30)
+root.printTree()
+root.findVal(9,c)
